@@ -10,9 +10,38 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gdsc-sc-team4-pointer-0d2a3b269f
 from PIL import Image, ImageDraw # 이미지를 불러오고, 편집하기 위한 라이브러리 import
 import requests
 
+# /image/toText API에 사용될 image to text 함수
+def image_to_text(uri) :
+    from google.cloud import vision
+
+    client = vision.ImageAnnotatorClient()
+    image = vision.Image()
+    image.source.image_uri = uri
+
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+    print("Texts:")
+
+    text_string = ''
+
+    for i, text in enumerate(texts):
+        print(f'\n"{text.description}"')
+        text_string += text.description
+
+        # texts 배열 내 첫번째 원소가 사진의 전체 텍스트 이므로, for문 전체 순회 필요 X
+        if i == 0 :
+            break
+
+    if response.error.message:
+        raise Exception(
+            "{}\nFor more info on error messages, check: "
+            "https://cloud.google.com/apis/design/errors".format(response.error.message)
+        )
+
+    return text_string
+
 def detect_text_uri(uri):
     from google.cloud import vision # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
-
 
     # 클라이언트 초기화
     client = vision.ImageAnnotatorClient()
@@ -80,8 +109,6 @@ def detect_text_uri(uri):
 
     # 총 문자 개수 출력
     print("Total Texts: ", len(texts))
-
-
 
 
 def detect_text_dir(file_dir):
@@ -164,9 +191,8 @@ def detect_text_dir(file_dir):
     print("Total Texts: ", len(texts))
 
 
-
-
-image_uri = os.environ.get("IMAGE_URI", "https://cloud.google.com/static/vision/docs/images/sign_small.jpg")
+#image_uri = "https://storage.googleapis.com/gdcs-sc-beadyeyes-bucket/140d792f-7fe6-4ef9-b062-0583aa39c05e"
+#image_uri = os.environ.get("IMAGE_URI", "https://cloud.google.com/static/vision/docs/images/sign_small.jpg")
 # image_uri = "https://storage.ganpoom.com/ganpoom/jpg/4124294744043775.jpg"
-detect_text_uri(image_uri)
+#detect_text_uri(image_uri)
 # detect_text_dir("./images/cafe.jpg")
