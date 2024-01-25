@@ -1,0 +1,24 @@
+From ubuntu:latest
+
+# Path: dockerfile
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    python3.11 \
+    python3-pip 
+
+
+RUN pip install --upgrade pip
+
+COPY . /app
+
+RUN pip install -r requirements.txt
+
+
+ENV IMAGE_URI ""
+ENV GOOGLE_APPLICATION_CREDENTIALS="gdsc-sc-team4-pointer-0d2a3b269fad.json"
+
+CMD ["python3", "googleOCR.py"]
+
+
+
