@@ -23,9 +23,10 @@ $ docker build -t your_image_name .
 ```
 $ docker run -e IMAGE_URI="your_image_uri.jpg" your_image_name
 ```
+* You need to have a Google Cloud Platform (GCP) key prepared.
+* Google Cloud Platform (GCP) key 가 준비되어 있어야 합니다.
+- <a href = 'https://cloud.google.com/iam/docs/keys-create-delete?hl=ko'>Create GCP key</a>
 ```
-# You need to have a Google Cloud Platform (GCP) key prepared.
-
 $ docker run -e GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH" -e IMAGE_URI="your_image_uri_here" your_image_name
 ```
 
