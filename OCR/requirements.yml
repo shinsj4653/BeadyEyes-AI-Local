@@ -1,4 +1,0 @@
-# requirements.yml
-- google-cloud-vision==3.4.2
-- requests==2.31.0
-- pillow==8.4.0
