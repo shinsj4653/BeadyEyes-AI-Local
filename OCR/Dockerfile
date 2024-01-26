@@ -1,9 +1,6 @@
 From ubuntu:latest
 
 # Path: dockerfile
-RUN mkdir -p /usr/app/ai
-WORKDIR /usr/app/ai
-
 RUN apt-get update && apt-get install -y \
     python3.11 \
     python3-pip
