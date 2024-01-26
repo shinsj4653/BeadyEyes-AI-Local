@@ -47,6 +47,7 @@ jobs:
     - name: Docker build
       run: |
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        cd ./OCR
         docker build -t gdsc-solution-challenge-team4-pointer .
         docker tag gdsc-solution-challenge-team4-pointer shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
         docker push shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
