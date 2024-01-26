@@ -24,6 +24,12 @@ def image_to_text(uri) :
 
     text_string = ''
 
+    if response.error.message:
+        raise Exception(
+            "{}\nFor more info on error messages, check: "
+            "https://cloud.google.com/apis/design/errors".format(response.error.message)
+        )
+
     for i, text in enumerate(texts):
         print(f'\n"{text.description}"')
         text_string += text.description
@@ -31,12 +37,6 @@ def image_to_text(uri) :
         # texts 배열 내 첫번째 원소가 사진의 전체 텍스트 이므로, for문 전체 순회 필요 X
         if i == 0 :
             break
-
-    if response.error.message:
-        raise Exception(
-            "{}\nFor more info on error messages, check: "
-            "https://cloud.google.com/apis/design/errors".format(response.error.message)
-        )
 
     return text_string
 
