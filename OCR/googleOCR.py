@@ -4,7 +4,7 @@ import os # 환경변수를 사용하기 위한 라이브러리 import
 # 구글 클라우드 플랫폼에서 받은 인증키를 환경변수에 등록 (Window 환경)
 
 """
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gdsc-sc-team4-pointer-0d2a3b269fad.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ocrAccountKey.json"
 """
 
 from PIL import Image, ImageDraw # 이미지를 불러오고, 편집하기 위한 라이브러리 import
