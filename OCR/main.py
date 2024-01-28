@@ -10,7 +10,7 @@ class Image(BaseModel) :
 
 @app.get("/")
 async def read_root() :
-	return "This is root path from FastAPI Backend"
+	return "This is root path from FastAPI Backend v2"
 @app.post("/image/toText")
 async def image_to_text(image: Image):
 	return googleOCR.image_to_text(image.imageUrl)
