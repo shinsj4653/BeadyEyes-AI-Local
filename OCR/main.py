@@ -14,4 +14,8 @@ async def read_root() :
 
 @app.post("/image/toText")
 async def image_to_text(image: Image):
+	return googleOCR.image_to_text(image.imageUrl)
+
+@app.post("/image/boundingPoly")
+async def image_to_text(image: Image):
 	return googleOCR.detect_text_uri(image.imageUrl)
