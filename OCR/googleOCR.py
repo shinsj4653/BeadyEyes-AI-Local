@@ -78,6 +78,8 @@ def detect_text_uri(uri):
     img_width, img_height = img.size
     print(f"Image Size: {img_width} x {img_height}")
     """
+    img_width, img_height = img.size
+    print(f"Image Size: {img_width} x {img_height}")
 
     print('Texts:')
     for text in texts:
