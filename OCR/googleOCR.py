@@ -41,10 +41,37 @@ def image_to_text(uri) :
         if i == 0 :
             break
 
-    return text_string
+    # 문자 배열
+    print(text_string)
 
-def text_bouding_poly(uri):
+    # 개행 문자 및 공백 제거된 문자열로 변환
+    result_string = get_cleaned_str(text_string)
+    print(result_string)
+
+    return result_string
+
+def get_cleaned_str(text_string):
+    # Remove ' ' and '\n' characters
+    cleaned_array = [char.replace(' ', '').replace('\n', '') for char in text_string]
+
+    # Concatenate the characters into a single string
+    result_string = ''.join(cleaned_array)
+    return result_string
+
+def text_bounding_poly(uri):
     from google.cloud import vision  # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
+
+    # 최종 반환 데이터 + Poly 배열
+    class FinalResponse() :
+        pass
+
+    # 텍스트 + 좌표 값 배열
+    class PolyData():
+        pass
+
+    # 좌표 값 배열 내 객체 데이터
+    class Vertex():
+        pass
 
     # 클라이언트 초기화
     client = vision.ImageAnnotatorClient()
@@ -83,11 +110,52 @@ def text_bouding_poly(uri):
     print(f"Image Size: {img_width} x {img_height}")
 
     print('Texts:')
-    for text in texts:
-        print(text.description)  # 텍스트 출력
+
+    finalResponse = FinalResponse()
+
+    # 이미지 가로, 세로 크기
+    finalResponse.img_width = img_width
+    finalResponse.img_height = img_height
+
+    poly_arr = []
+
+
+    for i, text in enumerate(texts):
+        # 전체 텍스트는 제외, 텍스트 각각의 조각들만 필요하기 때문!
+        if i == 0 :
+            continue
+        #print(text.description)  # 텍스트 출력
+        polyData = PolyData()
+        print(text.description)
+        polyData.text = text.description
+
+        # 좌표 정보 배열
+        vertices_arr = []
+
         vertices = (['({},{})'.format(vertex.x, vertex.y)
                      for vertex in text.bounding_poly.vertices])
-        print('bounds: {}'.format(','.join(vertices)))  # 바운딩 박스 좌표 출력
+        #print('bounds: {}'.format(','.join(vertices)))  # 바운딩 박스 좌표 출력
+
+        for vertex in text.bounding_poly.vertices :
+            v = Vertex()
+            v.x = vertex.x
+            v.y = vertex.y
+
+            vertices_arr.append(v)
+
+        polyData.vertices = vertices_arr
+        poly_arr.append(polyData)
+
+    finalResponse.boundingPoly = poly_arr
+
+    print("finalResponse")
+    print(finalResponse.img_width)
+    print(finalResponse.img_height)
+
+    #print(finalResponse.boundingPoly[0].vertices[0].x)
+    # print(finalResponse.boundingPoly[0])
+    return finalResponse
+
 
 def detect_text_uri(uri):
     from google.cloud import vision # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
