@@ -22,7 +22,7 @@ def image_to_text(uri) :
     texts = response.text_annotations
     print("Texts:")
 
-    text_string = ''
+    text_string = []
 
     if response.error.message:
         raise Exception(
@@ -32,13 +32,62 @@ def image_to_text(uri) :
 
     for i, text in enumerate(texts):
         print(f'\n"{text.description}"')
-        text_string += text.description
+        #text_string.append(text.description.strip())
+
+        # 개행 문자 및 공백 제거
+        text_string += text.description.strip()
 
         # texts 배열 내 첫번째 원소가 사진의 전체 텍스트 이므로, for문 전체 순회 필요 X
         if i == 0 :
             break
 
     return text_string
+
+def text_bouding_poly(uri):
+    from google.cloud import vision  # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
+
+    # 클라이언트 초기화
+    client = vision.ImageAnnotatorClient()
+
+    # 이미지 파일 링크로 넣음
+    image = vision.Image()
+    image.source.image_uri = uri
+
+    # 이미지 파일을 구글 비전 API에 넣어서 라벨을 추출
+    response = client.label_detection(image=image)
+    labels = response.label_annotations
+
+    # 라벨 출력 (그냥 출력이므로 헷갈리지 않게 생략)
+    """
+    print('Labels:')
+    for label in labels:
+        print(label.description)
+    """
+
+    # 이미지 파일을 구글 비전 API에 넣어서 텍스트를 추출
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+
+    # # 이미지파일 불러오기 (바운딩 박스 그리기용)
+    response = requests.get(uri, stream=True)
+    response.raise_for_status()
+    img = Image.open(response.raw)
+    draw = ImageDraw.Draw(img)
+
+    # 이미지 크기 출력
+    """
+    img_width, img_height = img.size
+    print(f"Image Size: {img_width} x {img_height}")
+    """
+    img_width, img_height = img.size
+    print(f"Image Size: {img_width} x {img_height}")
+
+    print('Texts:')
+    for text in texts:
+        print(text.description)  # 텍스트 출력
+        vertices = (['({},{})'.format(vertex.x, vertex.y)
+                     for vertex in text.bounding_poly.vertices])
+        print('bounds: {}'.format(','.join(vertices)))  # 바운딩 박스 좌표 출력
 
 def detect_text_uri(uri):
     from google.cloud import vision # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
