@@ -9,6 +9,9 @@
   docker run -e DISPLAY=host.docker.internal:0 money_test2
 
 
+![image](https://github.com/GDSC-Solution-Challenge-Team-4/BeadyEye-AI/assets/79080825/20d5abb5-eb4c-4a2e-b71b-f6e8b523f464)
+
+
 ### 해야할것
 코드 중간에 보면 video_reference 라는 부분이 있다.
 이곳에 video 경로 혹은 webcam의 device_id 혹은 RTSP이라는 stream url  등을 넣으라는 주석이 있는데...
