@@ -3,11 +3,10 @@ from inference import InferencePipeline
 # Import the built in render_boxes sink for visualizing results
 from inference.core.interfaces.stream.sinks import render_boxes
 
-
 import os
 
 # 환경 변수 설정
-os.environ["ROBOFLOW_API_KEY"] = "api-key"
+os.environ["ROBOFLOW_API_KEY"] = "xD1MfAWZdjVq5pJBV6Av"
 
 # initialize a pipeline object
 pipeline = InferencePipeline.init(
@@ -17,3 +16,4 @@ pipeline = InferencePipeline.init(
 )
 pipeline.start()
 pipeline.join()
+

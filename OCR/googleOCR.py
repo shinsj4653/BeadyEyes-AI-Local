@@ -156,6 +156,85 @@ def text_bounding_poly(uri):
     # print(finalResponse.boundingPoly[0])
     return finalResponse
 
+def text_pointer(uri, x, y):
+    from google.cloud import vision  # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
+
+
+    # 클라이언트 초기화
+    client = vision.ImageAnnotatorClient()
+
+    # 이미지 파일 링크로 넣음
+    image = vision.Image()
+    image.source.image_uri = uri
+
+    x = int(x)
+    y = int(y)
+
+    # 이미지 파일을 구글 비전 API에 넣어서 라벨을 추출
+    response = client.label_detection(image=image)
+    labels = response.label_annotations
+
+    # 라벨 출력 (그냥 출력이므로 헷갈리지 않게 생략)
+    """
+    print('Labels:')
+    for label in labels:
+        print(label.description)
+    """
+
+    # 이미지 파일을 구글 비전 API에 넣어서 텍스트를 추출
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+
+    # # 이미지파일 불러오기 (바운딩 박스 그리기용)
+    response = requests.get(uri, stream=True)
+    response.raise_for_status()
+    img = Image.open(response.raw)
+    draw = ImageDraw.Draw(img)
+
+    # 이미지 크기 출력
+    """
+    img_width, img_height = img.size
+    print(f"Image Size: {img_width} x {img_height}")
+    """
+    img_width, img_height = img.size
+    print(f"Image Size: {img_width} x {img_height}")
+
+    print('Texts:')
+
+    # 손가락 x, y 좌표에 해당하는 단어 배열
+    words = []
+
+    for i, text in enumerate(texts):
+        # 전체 텍스트는 제외, 텍스트 각각의 조각들만 필요하기 때문!
+        if i == 0 :
+            continue
+
+        word = text.description
+        print(word)
+
+        x_set = set()
+        y_set = set()
+
+        for vertex in text.bounding_poly.vertices :
+
+            x_set.add(vertex.x)
+            y_set.add(vertex.y)
+
+
+        min_x = min(x_set)
+        max_x = max(x_set)
+
+        min_y = min(y_set)
+        max_y = max(y_set)
+
+        if min_x <= x <= max_x and min_y <= y <= max_y :
+            words.append(word)
+
+    print(words)
+
+    #print(finalResponse.boundingPoly[0].vertices[0].x)
+    # print(finalResponse.boundingPoly[0])
+    return words
 
 def detect_text_uri(uri):
     from google.cloud import vision # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
