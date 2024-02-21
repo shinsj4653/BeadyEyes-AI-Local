@@ -5,31 +5,51 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
 import numpy as np
-import cv2
+# import cv2
 import urllib.request
 
 import googleOCR
+from PIL import Image
+import requests
+from io import BytesIO
+
+
+
+# def read_image_from_uri(uri):
+#     try:
+#         # URI로부터 이미지 다운로드
+#         req = urllib.request.urlopen(uri)
+#         arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+#         img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+
+#         local_path = "temp.jpg"
+#         # 로컬에 이미지 저장
+#         cv2.imwrite(local_path, img)
+
+#         return img
+
+
+#     except Exception as e:
+#         print(f"Error reading image from {uri}: {e}")
+#         return None
+
 
 
 
 def read_image_from_uri(uri):
     try:
         # URI로부터 이미지 다운로드
-        req = urllib.request.urlopen(uri)
-        arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
-        img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+        response = requests.get(uri)
+        img = Image.open(BytesIO(response.content))
 
         local_path = "temp.jpg"
         # 로컬에 이미지 저장
-        cv2.imwrite(local_path, img)
+        img.save(local_path)
 
-        return img
-
-
+        return np.array(img)
     except Exception as e:
         print(f"Error reading image from {uri}: {e}")
         return None
-
 
 
 
