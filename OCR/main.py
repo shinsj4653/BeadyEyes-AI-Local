@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 import googleOCR
+import handLandmark
 
 app = FastAPI()
 
@@ -25,6 +26,11 @@ async def image_to_text(image: Image):
 async def image_to_text(image: Image):
 	return googleOCR.text_bounding_poly(image.imageUrl)
 
+# @app.post("/image/pointer")
+# async def image_to_text(pointer: Pointer):
+# 	return googleOCR.text_pointer(pointer.imageUrl, pointer.x, pointer.y)
+
+
 @app.post("/image/pointer")
 async def image_to_text(pointer: Pointer):
-	return googleOCR.text_pointer(pointer.imageUrl, pointer.x, pointer.y)
+	return handLandmark.text_pointer(pointer.imageUrl)

@@ -3,9 +3,9 @@ import os # 환경변수를 사용하기 위한 라이브러리 import
 
 # 구글 클라우드 플랫폼에서 받은 인증키를 환경변수에 등록 (Window 환경)
 
-"""
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ocrAccountKey.json"
-"""
+
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ocrAccountKey.json"
+
 
 from PIL import Image, ImageDraw # 이미지를 불러오고, 편집하기 위한 라이브러리 import
 import requests
@@ -174,12 +174,6 @@ def text_pointer(uri, x, y):
     response = client.label_detection(image=image)
     labels = response.label_annotations
 
-    # 라벨 출력 (그냥 출력이므로 헷갈리지 않게 생략)
-    """
-    print('Labels:')
-    for label in labels:
-        print(label.description)
-    """
 
     # 이미지 파일을 구글 비전 API에 넣어서 텍스트를 추출
     response = client.text_detection(image=image)
@@ -192,10 +186,7 @@ def text_pointer(uri, x, y):
     draw = ImageDraw.Draw(img)
 
     # 이미지 크기 출력
-    """
-    img_width, img_height = img.size
-    print(f"Image Size: {img_width} x {img_height}")
-    """
+
     img_width, img_height = img.size
     print(f"Image Size: {img_width} x {img_height}")
 
@@ -227,7 +218,7 @@ def text_pointer(uri, x, y):
         min_y = min(y_set)
         max_y = max(y_set)
 
-        if min_x <= x <= max_x and min_y <= y <= max_y :
+        if min_x <= x <= max_x and max_y <= y :
             words.append(word)
 
     print(words)
@@ -307,6 +298,7 @@ def detect_text_uri(uri):
 
     # 총 문자 개수 출력
     print("Total Texts: ", len(texts))
+
 
 
 def detect_text_dir(file_dir):
