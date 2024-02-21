@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 import googleOCR
-# import handLandmark
+import handLandmark
 
 app = FastAPI()
 
@@ -31,6 +31,6 @@ async def image_to_text(image: Image):
 # 	return googleOCR.text_pointer(pointer.imageUrl, pointer.x, pointer.y)
 
 
-# @app.post("/image/pointer")
-# async def image_to_text(pointer: Pointer):
-# 	return handLandmark.text_pointer(pointer.imageUrl)
+@app.post("/image/pointer")
+async def image_to_text(pointer: Pointer):
+	return handLandmark.text_pointer(pointer.imageUrl)
