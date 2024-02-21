@@ -4,6 +4,7 @@ From ubuntu:latest
 RUN apt-get update && apt-get install -y \
     python3.11 \
     python3-pip
+    libgl1-mesa-glx
 
 RUN pip install --upgrade pip
 
