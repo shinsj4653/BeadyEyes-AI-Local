@@ -223,9 +223,12 @@ def text_pointer(uri, x, y):
 
     print(words)
 
+    # 가장 긴 문자열 찾기
+    longest_string = max(words, key=len)
+
     #print(finalResponse.boundingPoly[0].vertices[0].x)
     # print(finalResponse.boundingPoly[0])
-    return words
+    return longest_string
 
 def detect_text_uri(uri):
     from google.cloud import vision # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
