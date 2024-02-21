@@ -218,7 +218,7 @@ def text_pointer(uri, x, y):
         min_y = min(y_set)
         max_y = max(y_set)
 
-        if min_x <= x <= max_x and max_y <= y :
+        if min_x <= x <= max_x and min_y <= y <= max_y :
             words.append(word)
 
     print(words)
