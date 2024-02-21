@@ -224,8 +224,9 @@ def text_pointer(uri, x, y):
         if min_x <= x <= max_x and min_y <= y <= max_y :
             words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
 
-    print(words)
+
     words.sort(key=lambda x: x[1]) # 손과 가장 가까운 단어를 반환
+    print(words)
     # 가장 긴 문자열 찾기
     if words:
         result_string = words[0]
