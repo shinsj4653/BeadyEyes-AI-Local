@@ -241,7 +241,7 @@ def text_pointer(uri, x, y):
     print(words)
     # 가장 긴 문자열 찾기
     if words:
-        result_string = words[0][0] # 제일 가까운 단어 반환
+        result_string = words[0][0] # 제일 가까운 단어 반환하도록 세팅
     else:
         result_string = "해당위치에 문자열이 없습니다."
     #print(finalResponse.boundingPoly[0].vertices[0].x)
