@@ -106,7 +106,7 @@ def text_pointer(uri):
     x, y = get_finger_coordinate(uri)
 
     if x == -1 and y == -1:
-        return ["손가락 인식에 실패했습니다."]
+        return "손가락 인식에 실패했습니다."
 
     text = googleOCR.text_pointer(uri, x, y)
 
