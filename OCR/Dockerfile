@@ -3,7 +3,7 @@ From ubuntu:latest
 # Path: dockerfile
 RUN apt-get update && apt-get install -y \
     python3.11 \
-    python3-pip
+    python3-pip \
     libgl1-mesa-glx && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
