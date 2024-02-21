@@ -221,7 +221,14 @@ def text_pointer(uri, x, y):
         mid_x = min_x + (max_x - min_x) // 2
         mid_y = min_y + (max_y - min_y) // 2
 
+        print('hand x :', x)
+        print('hand y :', y)
+
+        print('mid_x : ', mid_x)
+        print('mid_y : ', mid_y)
+
         if min_x <= x <= max_x and min_y <= y <= max_y :
+            print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
             words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
 
 
