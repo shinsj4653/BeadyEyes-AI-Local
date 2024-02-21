@@ -30,7 +30,6 @@ async def image_to_text(image: Image):
 # async def image_to_text(pointer: Pointer):
 # 	return googleOCR.text_pointer(pointer.imageUrl, pointer.x, pointer.y)
 
-
 @app.post("/image/pointer")
 async def image_to_text(pointer: Pointer):
 	return handLandmark.text_pointer(pointer.imageUrl)
