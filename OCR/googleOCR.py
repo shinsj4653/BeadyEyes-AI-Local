@@ -186,6 +186,8 @@ def text_pointer(uri, x, y):
     img = Image.open(response.raw)
     draw = ImageDraw.Draw(img)
 
+    print('hand x :', x)
+    print('hand y :', y)
     # 이미지 크기 출력
 
     img_width, img_height = img.size
@@ -221,13 +223,16 @@ def text_pointer(uri, x, y):
         mid_x = min_x + (max_x - min_x) // 2
         mid_y = min_y + (max_y - min_y) // 2
 
-        print('hand x :', x)
-        print('hand y :', y)
+        print('min_x : ', min_x)
+        print('min_y : ', max_x)
+
+        print('max_x : ', min_y)
+        print('max_y : ', max_y)
 
         print('mid_x : ', mid_x)
         print('mid_y : ', mid_y)
 
-        if min_x <= x <= max_x and min_y <= y <= max_y :
+        if min_x <= x <= max_x and max_y <= y :
             print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
             words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
 
