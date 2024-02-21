@@ -1,5 +1,6 @@
 import io # 이미지를 불러오기 위한 라이브러리 import
 import os # 환경변수를 사용하기 위한 라이브러리 import
+import math # 두 점간 거리 값 구하기 위한 라이브러리 import
 
 # 구글 클라우드 플랫폼에서 받은 인증키를 환경변수에 등록 (Window 환경)
 
@@ -207,7 +208,6 @@ def text_pointer(uri, x, y):
         y_set = set()
 
         for vertex in text.bounding_poly.vertices :
-
             x_set.add(vertex.x)
             y_set.add(vertex.y)
 
@@ -218,14 +218,17 @@ def text_pointer(uri, x, y):
         min_y = min(y_set)
         max_y = max(y_set)
 
+        mid_x = max_x - min_x
+        mid_y = max_y - min_y
+
         if min_x <= x <= max_x and min_y <= y <= max_y :
-            words.append(word)
+            words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
 
     print(words)
-
+    words.sort(key=lambda x: x[1]) # 손과 가장 가까운 단어를 반환
     # 가장 긴 문자열 찾기
     if words:
-        result_string = max(words, key=len)
+        result_string = words[0]
     else:
         result_string = "해당위치에 문자열이 없습니다."
     #print(finalResponse.boundingPoly[0].vertices[0].x)
