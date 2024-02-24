@@ -5,7 +5,7 @@ import math # 두 점간 거리 값 구하기 위한 라이브러리 import
 # 구글 클라우드 플랫폼에서 받은 인증키를 환경변수에 등록 (Window 환경)
 
 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ocrAccountKey.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ocrAccountKey.json"
 
 
 from PIL import Image, ImageDraw # 이미지를 불러오고, 편집하기 위한 라이브러리 import
@@ -429,4 +429,3 @@ def detect_text_dir(file_dir, x, y):
 #image_uri = os.environ.get("IMAGE_URI", "https://cloud.google.com/static/vision/docs/images/sign_small.jpg")
 # image_uri = "https://storage.ganpoom.com/ganpoom/jpg/4124294744043775.jpg"
 #detect_text_uri(image_uri)
-# detect_text_dir("./images/cafe.jpg")

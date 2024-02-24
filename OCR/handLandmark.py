@@ -143,7 +143,7 @@ def get_finger_coordinate_file(imagefile):
     right_hand_y_coordinate = 0
 
 
-
+    # import cv2
     # cv2.imshow("Annotated Image", image.numpy_view())
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
@@ -164,15 +164,18 @@ def get_finger_coordinate_file(imagefile):
 
 def text_pointer_file(imagefile):
     # 이미지에서 텍스트를 추출
-    x, y = get_finger_coordinate(imagefile)
+    x, y = get_finger_coordinate_file(imagefile)
 
     if x == -1 and y == -1:
         return "손가락 인식에 실패했습니다."
 
-    text = googleOCR.text_pointer(imagefile, x, y)
+    text = googleOCR.detect_text_dir(imagefile, x, y)
 
     return text
 
 
 
 
+aa = text_pointer_file("/home/gardenjun/바탕화면/STUDY/gdsc_pointer/OCR/images/finger.jpg")
+
+print(aa)
