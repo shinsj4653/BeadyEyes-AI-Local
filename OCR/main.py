@@ -11,8 +11,8 @@ class Image(BaseModel) :
 	imageUrl: str
 
 class Pointer(BaseModel) :
-	imagefile: UploadFile
-	# imageUrl: str
+	# imagefile: UploadFile
+	imageUrl: str
 	# x : int
 	# y : int
 
@@ -34,13 +34,13 @@ async def image_to_text(image: Image):
 
 
 # URL 로 이미지를 받아서 텍스트로 변환
-# @app.post("/image/pointer")
-# async def image_to_text(pointer: Pointer):
-# 	return handLandmark.text_pointer_uri(pointer.imageUrl)
-
-
-# 이미지 파일을 받아서 텍스트로 변환
 @app.post("/image/pointer")
 async def image_to_text(pointer: Pointer):
-	return handLandmark.text_pointer_file(pointer.imagefile)
+	return handLandmark.text_pointer_uri(pointer.imageUrl)
+
+
+# # 이미지 파일을 받아서 텍스트로 변환
+# @app.post("/image/pointer")
+# async def image_to_text(pointer: Pointer):
+# 	return handLandmark.text_pointer_file(pointer.imagefile)
 
