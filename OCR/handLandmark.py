@@ -100,7 +100,7 @@ def get_finger_coordinate(uri):
 
 
 
-def text_pointer(uri):
+def text_pointer_uri(uri):
     # 이미지에서 텍스트를 추출
 
     x, y = get_finger_coordinate(uri)
@@ -111,6 +111,68 @@ def text_pointer(uri):
     text = googleOCR.text_pointer(uri, x, y)
 
     return text
+
+
+
+###################################################################################################################
+# here the code for file upload
+
+
+
+def get_finger_coordinate_file(imagefile):
+    base_options = python.BaseOptions(model_asset_path='hand_landmarker.task')
+    options = vision.HandLandmarkerOptions(base_options=base_options,
+                                            num_hands=1)
+    detector = vision.HandLandmarker.create_from_options(options)
+
+    # STEP 3: Load the input image.
+
+    image = mp.Image.create_from_file(imagefile)
+
+
+    # uri로부터 이미지를 읽어옴
+    # image = read_image_from_uri(uri)
+    # image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
+
+    image_shape = image.numpy_view().shape
+
+    # STEP 4: Detect hand landmarks from the input image.
+    detection_result = detector.detect(image)
+
+    right_hand_x_coordinate = 0
+    right_hand_y_coordinate = 0
+
+
+
+    # cv2.imshow("Annotated Image", image.numpy_view())
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
+    # print(image_shape)
+    # print(detection_result.hand_landmarks[0][8])
+    try:
+        right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
+        right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
+
+
+    except:
+        # 손가락 인식 실패
+        return -1, -1
+
+    return right_hand_x_coordinate, right_hand_y_coordinate
+
+
+def text_pointer_file(imagefile):
+    # 이미지에서 텍스트를 추출
+    x, y = get_finger_coordinate(imagefile)
+
+    if x == -1 and y == -1:
+        return "손가락 인식에 실패했습니다."
+
+    text = googleOCR.text_pointer(imagefile, x, y)
+
+    return text
+
 
 
 

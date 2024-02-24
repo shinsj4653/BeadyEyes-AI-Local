@@ -322,7 +322,7 @@ def detect_text_uri(uri):
 
 
 
-def detect_text_dir(file_dir):
+def detect_text_dir(file_dir, x, y):
     from google.cloud import vision # 구글 클라우드 비전 API를 사용하기 위한 라이브러리 import
 
 
@@ -371,36 +371,59 @@ def detect_text_dir(file_dir):
     """
 
     print('Texts:')
-    for text in texts:
-        print(text.description) # 텍스트 출력
-        vertices = (['({},{})'.format(vertex.x, vertex.y)
-                    for vertex in text.bounding_poly.vertices])
-        print('bounds: {}'.format(','.join(vertices))) # 바운딩 박스 좌표 출력
 
-        
-        # TODO: 이부분이 내가 그리는게 맞는지 확인 필요
-        # 바운딩 박스 그리기 
-        draw.polygon([
-            (text.bounding_poly.vertices)[0].x, (text.bounding_poly.vertices)[0].y,
-            (text.bounding_poly.vertices)[1].x, (text.bounding_poly.vertices)[1].y,
-            (text.bounding_poly.vertices)[2].x, (text.bounding_poly.vertices)[2].y,
-            (text.bounding_poly.vertices)[3].x, (text.bounding_poly.vertices)[3].y], 
-            None, 
-            outline='green',
-            width=3)
+    # 손가락 x, y 좌표에 해당하는 단어 배열
+    words = []
 
-    # 바운딩 박스가 그려진 이미지 저장 
-    img.save('./images/image' + '_bounding_box.jpg') # TODO: 파일 경로 수정 필요
+    for i, text in enumerate(texts):
+        # 전체 텍스트는 제외, 텍스트 각각의 조각들만 필요하기 때문!
+        if i == 0 :
+            continue
 
-    # 바운딩 박스가 그려진 이미지 보여주기
-    """
-    img.show() 
-    """
+        word = text.description
+        print(word)
+
+        x_set = set()
+        y_set = set()
+
+        for vertex in text.bounding_poly.vertices :
+            x_set.add(vertex.x)
+            y_set.add(vertex.y)
 
 
-    # 총 문자 개수 출력
-    print("Total Texts: ", len(texts))
+        min_x = min(x_set)
+        max_x = max(x_set)
 
+        min_y = min(y_set)
+        max_y = max(y_set)
+
+        mid_x = min_x + (max_x - min_x) // 2
+        mid_y = min_y + (max_y - min_y) // 2
+
+        print('min_x : ', min_x)
+        print('min_y : ', max_x)
+
+        print('max_x : ', min_y)
+        print('max_y : ', max_y)
+
+        print('mid_x : ', mid_x)
+        print('mid_y : ', mid_y)
+
+        if min_x <= x <= max_x and max_y <= y :
+            print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
+            words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
+
+
+    words.sort(key=lambda x: x[1]) # 손과 가장 가까운 단어를 반환
+    print(words)
+    # 가장 긴 문자열 찾기
+    if words:
+        result_string = words[0][0] # 제일 가까운 단어 반환하도록 세팅
+    else:
+        result_string = "해당위치에 문자열이 없습니다."
+    #print(finalResponse.boundingPoly[0].vertices[0].x)
+    # print(finalResponse.boundingPoly[0])
+    return result_string
 
 #image_uri = "https://storage.googleapis.com/gdcs-sc-beadyeyes-bucket/140d792f-7fe6-4ef9-b062-0583aa39c05e"
 #image_uri = os.environ.get("IMAGE_URI", "https://cloud.google.com/static/vision/docs/images/sign_small.jpg")
