@@ -186,8 +186,7 @@ def text_pointer(uri, x, y):
     img = Image.open(response.raw)
     draw = ImageDraw.Draw(img)
 
-    print('hand x :', x)
-    print('hand y :', y)
+
     # 이미지 크기 출력
 
     img_width, img_height = img.size
@@ -199,14 +198,20 @@ def text_pointer(uri, x, y):
     words = []
 
     for i, text in enumerate(texts):
-
+        print(f"Image Size: {img_width} x {img_height}")
         word = text.description
         print('word:', word)
 
         x_set = set()
         y_set = set()
 
+
+        print('hand x :', x)
+        print('hand y :', y)
+
         for vertex in text.bounding_poly.vertices :
+            print('vertex x :',x)
+            print('vertex x :',y)
             x_set.add(vertex.x)
             y_set.add(vertex.y)
 
@@ -220,14 +225,15 @@ def text_pointer(uri, x, y):
         mid_x = min_x + (max_x - min_x) // 2
         mid_y = min_y + (max_y - min_y) // 2
 
-        print('min_x : ', min_x)
-        print('min_y : ', max_x)
 
-        print('max_x : ', min_y)
-        print('max_y : ', max_y)
-
-        print('mid_x : ', mid_x)
-        print('mid_y : ', mid_y)
+        # print('min_x : ', min_x)
+        # print('min_y : ', max_x)
+        #
+        # print('max_x : ', min_y)
+        # print('max_y : ', max_y)
+        #
+        # print('mid_x : ', mid_x)
+        # print('mid_y : ', mid_y)
 
         if min_x <= x <= max_x and max_y <= y :
             print('found word: ', word)
