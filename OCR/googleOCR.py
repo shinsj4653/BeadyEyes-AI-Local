@@ -199,9 +199,6 @@ def text_pointer(uri, x, y):
     words = []
 
     for i, text in enumerate(texts):
-        # 전체 텍스트는 제외, 텍스트 각각의 조각들만 필요하기 때문!
-        if i == 0 :
-            continue
 
         word = text.description
         print(word)
