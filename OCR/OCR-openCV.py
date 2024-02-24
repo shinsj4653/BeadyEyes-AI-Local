@@ -77,7 +77,7 @@ def putText(image, text, x, y, color=(0, 255, 0), font_size=22):
 
 
 # 구글 비전 API를 사용하기 위한 인증키 설정
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'gdsc-sc-team4-pointer-0d2a3b269fad.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'ocrAccountKey.json'
  
 # 구글 비전 API 클라이언트 생성
 client_options = {'api_endpoint': 'eu-vision.googleapis.com'}
