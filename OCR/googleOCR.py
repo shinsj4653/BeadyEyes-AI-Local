@@ -210,8 +210,8 @@ def text_pointer(uri, x, y):
         print('hand y :', y)
 
         for vertex in text.bounding_poly.vertices :
-            print('vertex x :',x)
-            print('vertex x :',y)
+            print('vertex x :',vertex.x)
+            print('vertex y :',vertex.y)
             x_set.add(vertex.x)
             y_set.add(vertex.y)
 
