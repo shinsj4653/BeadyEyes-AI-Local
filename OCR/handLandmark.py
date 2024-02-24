@@ -176,6 +176,6 @@ def text_pointer_file(imagefile):
 
 
 
-aa = text_pointer_file("/home/gardenjun/바탕화면/STUDY/gdsc_pointer/OCR/images/finger.jpg")
+# aa = text_pointer_file("/home/gardenjun/바탕화면/STUDY/gdsc_pointer/OCR/images/finger.jpg")
 
-print(aa)
+# print(aa)
