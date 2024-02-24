@@ -201,7 +201,7 @@ def text_pointer(uri, x, y):
     for i, text in enumerate(texts):
 
         word = text.description
-        print(word)
+        print('word:', word)
 
         x_set = set()
         y_set = set()
@@ -230,12 +230,17 @@ def text_pointer(uri, x, y):
         print('mid_y : ', mid_y)
 
         if min_x <= x <= max_x and max_y <= y :
-            print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
+            print('found word: ', word)
+            print('min_x, x, max_x', min_x, x, max_x)
+            print('max_y y', max_y, y)
+            # print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
             # words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
             words.append((word, abs(y - max_y) + abs(x - mid_x)))
 
+
     words.sort(key=lambda x: x[1]) # 손과 가장 가까운 단어를 반환
-    print(words)
+    print('words : ')
+    print(word)
     # 가장 긴 문자열 찾기
     if words:
         result_string = words[0][0] # 제일 가까운 단어 반환하도록 세팅
