@@ -253,11 +253,11 @@ def text_pointer(uri, x, y):
         # print('mid_y : ', mid_y)
 
         if max_y <= y :
-            print('min_x, x, max_x', min_x, x, max_x)
-            print('max_y y', max_y, y)
+            #print('min_x, x, max_x', min_x, x, max_x)
+            #print('max_y y', max_y, y)
             # print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
-            #words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
-            words.append((word, abs(y - max_y)))
+            words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
+            #words.append((word, abs(y - max_y)))
 
 
     words.sort(key=lambda x: x[1]) # 손과 가장 가까운 단어를 반환
