@@ -115,8 +115,11 @@ def get_finger_coordinate(uri):
     # print(image_shape)
     # print(detection_result.hand_landmarks[0][8])
     printImageInfo(uri)
-    print('image_shape[1] : ', image_shape[1])
-    print('image_shape[0] : ', image_shape[0])
+
+    print('image_shape[1] : ', image_shape[1])  # 가로
+    print('image_shape[0] : ', image_shape[0]) # 세로
+
+    img_width, img_height = min(image_shape[0], image_shape[1]), max(image_shape[0], image_shape[1])
 
     try:
 
@@ -134,16 +137,16 @@ def get_finger_coordinate(uri):
         #min_x = max(handXset)
         min_y = min(handYset)
 
-        right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
-        right_hand_y_coordinate = int(min_y * image_shape[0])
-
         #right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
-        #right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
+        #right_hand_y_coordinate = int(min_y * image_shape[0])
+
+        right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * img_width)
+        right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * img_height)
         #print('detection_result.hand_landmarks')
         #print(detection_result.hand_landmarks)
 
-        print("selected hand x 좌표 : ", right_hand_x_coordinate)
-        print("selected hand y 좌표 : ", right_hand_y_coordinate)
+        #print("selected hand x 좌표 : ", right_hand_x_coordinate)
+        #print("selected hand y 좌표 : ", right_hand_y_coordinate)
 
     except:
         # 손가락 인식 실패
