@@ -120,24 +120,28 @@ def get_finger_coordinate(uri):
 
     try:
 
-        handXset = set()
+        #handXset = set()
         handYset = set()
 
-        for value in detection_result.hand_landmarks[0]:
-            handXset.add(value.x)
+        for i, value in detection_result.hand_landmarks[0]:
+            print("index : ", i)
+            print("hand x : ", value.x * image_shape[1])
+            print("hand y : ", value.y * image_shape[0])
+
+            #handXset.add(value.x)
             handYset.add(value.y)
 
-        min_x = max(handXset)
+        #min_x = max(handXset)
         min_y = max(handYset)
 
-        right_hand_x_coordinate = int(min_x * image_shape[1])
+        right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
         right_hand_y_coordinate = int(min_y * image_shape[0])
 
         #right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
         #right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
-        print('detection_result.hand_landmarks')
-        print(detection_result.hand_landmarks)
-        
+        #print('detection_result.hand_landmarks')
+        #print(detection_result.hand_landmarks)
+
         print("selected hand x 좌표 : ", right_hand_x_coordinate)
         print("selected hand y 좌표 : ", right_hand_y_coordinate)
 
