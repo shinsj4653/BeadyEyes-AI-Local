@@ -116,8 +116,8 @@ def get_finger_coordinate(uri):
     # print(detection_result.hand_landmarks[0][8])
     printImageInfo(uri)
 
-    print('image_shape[1] : ', image_shape[1])  # 가로
     print('image_shape[0] : ', image_shape[0]) # 세로
+    print('image_shape[1] : ', image_shape[1]) # 가로
 
     img_width, img_height = min(image_shape[0], image_shape[1]), max(image_shape[0], image_shape[1])
 
@@ -128,8 +128,8 @@ def get_finger_coordinate(uri):
 
         for i, value in enumerate(detection_result.hand_landmarks[0]):
             print("index : ", i)
-            print("hand x : ", value.x * image_shape[1])
-            print("hand y : ", value.y * image_shape[0])
+            print("hand x : ", value.x * img_width)
+            print("hand y : ", value.y * img_height)
 
             #handXset.add(value.x)
             handYset.add(value.y)
@@ -137,8 +137,8 @@ def get_finger_coordinate(uri):
         #min_x = max(handXset)
         min_y = min(handYset)
 
-        #right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
-        #right_hand_y_coordinate = int(min_y * image_shape[0])
+        #right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[0])
+        #right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[1])
 
         right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * img_width)
         right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * img_height)
