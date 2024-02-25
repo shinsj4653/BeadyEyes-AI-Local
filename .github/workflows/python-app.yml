@@ -48,8 +48,8 @@ jobs:
       run: |
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         cd ./OCR
-        docker build -t ai-pointer .
-        docker tag ai-pointer shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
+        docker build -t shinsj4653/gdsc-solution-challenge-team4-pointer .
+        docker tag shinsj4653/gdsc-solution-challenge-team4-pointer shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
         docker push shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
         
     # Deploy
@@ -61,7 +61,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: | 
-          sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+          sudo docker login -u shinsj4653 -p ${{ secrets.DOCKERHUB_PASSWORD }}
           sudo docker pull shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
           sudo docker tag shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7} beadyeyes-ai
           sudo docker-compose up -d
