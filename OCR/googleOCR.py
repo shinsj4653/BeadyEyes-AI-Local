@@ -198,13 +198,13 @@ def text_pointer(uri, x, y):
     words = []
 
     for i, text in enumerate(texts):
-
-        if i == 0: # 사진 내 전체 문자는 제외해야함
-            continue
-
+        
         print(f"Image Size: {img_width} x {img_height}")
         word = text.description
         print('word:', word)
+        if i == 0: # 사진 내 전체 문자는 제외해야함
+            continue
+
 
         x_set = set()
         y_set = set()
@@ -258,7 +258,7 @@ def text_pointer(uri, x, y):
 
     words.sort(key=lambda x: x[1]) # 손과 가장 가까운 단어를 반환
     print('words : ')
-    print(word)
+    print(words)
     # 가장 긴 문자열 찾기
     if words:
         result_string = words[0][0] # 제일 가까운 단어 반환하도록 세팅
