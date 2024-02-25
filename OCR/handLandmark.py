@@ -53,6 +53,7 @@ def read_image_from_uri(uri):
         return None
 
 def printImageInfo(uri) :
+    from google.cloud import vision
     # 클라이언트 초기화
     client = vision.ImageAnnotatorClient()
 
