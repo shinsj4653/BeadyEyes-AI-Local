@@ -132,7 +132,7 @@ def get_finger_coordinate(uri):
             handYset.add(value.y)
 
         #min_x = max(handXset)
-        min_y = max(handYset)
+        min_y = min(handYset)
 
         right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
         right_hand_y_coordinate = int(min_y * image_shape[0])
