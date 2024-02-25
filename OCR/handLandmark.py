@@ -89,7 +89,8 @@ def get_finger_coordinate(uri):
     try:
         right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
         right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
-
+        print('detection_result.hand_landmarks')
+        print(detection_result.hand_landmarks)
 
     except:
         # 손가락 인식 실패

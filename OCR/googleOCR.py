@@ -204,7 +204,14 @@ def text_pointer(uri, x, y):
 
         x_set = set()
         y_set = set()
+        # 가로: 4032 세로 : 3024
 
+        # 1728, 1730
+
+        # hello
+        # x y 1248 1244  (2)   # x  y   1488     1244  (3)
+
+        # x y 1246  2238  (1)    # x   y 1486      2238 (4)
 
         print('hand x :', x)
         print('hand y :', y)
