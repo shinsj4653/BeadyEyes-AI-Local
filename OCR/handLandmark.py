@@ -123,7 +123,7 @@ def get_finger_coordinate(uri):
         #handXset = set()
         handYset = set()
 
-        for i, value in detection_result.hand_landmarks[0]:
+        for i, value in enumerate(detection_result.hand_landmarks[0]):
             print("index : ", i)
             print("hand x : ", value.x * image_shape[1])
             print("hand y : ", value.y * image_shape[0])
