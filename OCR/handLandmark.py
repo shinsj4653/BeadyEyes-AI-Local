@@ -53,7 +53,7 @@ def read_image_from_uri(uri):
         return None
 
 def printImageInfo(uri) :
-    
+
     from google.cloud import vision
     # 클라이언트 초기화
     client = vision.ImageAnnotatorClient()
@@ -99,8 +99,6 @@ def get_finger_coordinate(uri):
     # image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
 
     image_shape = image.numpy_view().shape
-
-
 
     # STEP 4: Detect hand landmarks from the input image.
     detection_result = detector.detect(image)
@@ -184,8 +182,22 @@ def get_finger_coordinate_file(imagefile):
     # print(image_shape)
     # print(detection_result.hand_landmarks[0][8])
     try:
-        right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
-        right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
+
+        handXset = set()
+        handYset = set()
+
+        for value in detection_result.hand_landmarks[0] :
+            handXset.add(value.x)
+            handYset.add(value.y)
+
+        min_x = max(handXset)
+        min_y = max(handYset)
+
+        right_hand_x_coordinate = int(min_x * image_shape[1])
+        right_hand_y_coordinate = int(min_y * image_shape[0])
+
+        # right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
+        # right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
 
 
     except:
