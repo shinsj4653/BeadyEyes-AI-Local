@@ -13,6 +13,7 @@ from PIL import Image
 import requests
 from io import BytesIO
 
+from PIL import Image, ImageDraw # 이미지를 불러오고, 편집하기 위한 라이브러리 import
 
 
 # def read_image_from_uri(uri):
@@ -51,7 +52,34 @@ def read_image_from_uri(uri):
         print(f"Error reading image from {uri}: {e}")
         return None
 
+def printImageInfo(uri) :
 
+    from google.cloud import vision
+    # 클라이언트 초기화
+    client = vision.ImageAnnotatorClient()
+
+    # 이미지 파일 링크로 넣음
+    image = vision.Image()
+    image.source.image_uri = uri
+
+    # 이미지 파일을 구글 비전 API에 넣어서 라벨을 추출
+    response = client.label_detection(image=image)
+    labels = response.label_annotations
+
+    # 이미지 파일을 구글 비전 API에 넣어서 텍스트를 추출
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+
+    # # 이미지파일 불러오기 (바운딩 박스 그리기용)
+    response = requests.get(uri, stream=True)
+    response.raise_for_status()
+    img = Image.open(response.raw)
+    draw = ImageDraw.Draw(img)
+
+    # 이미지 크기 출력
+
+    img_width, img_height = img.size
+    print(f"Image Size: {img_width} x {img_height}")
 
 def get_finger_coordinate(uri):
     base_options = python.BaseOptions(model_asset_path='hand_landmarker.task')
@@ -86,18 +114,45 @@ def get_finger_coordinate(uri):
 
     # print(image_shape)
     # print(detection_result.hand_landmarks[0][8])
-    try:
-        right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
-        right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
+    printImageInfo(uri)
 
+    print('image_shape[0] : ', image_shape[0]) # 세로
+    print('image_shape[1] : ', image_shape[1]) # 가로
+
+    img_width, img_height = min(image_shape[0], image_shape[1]), max(image_shape[0], image_shape[1])
+
+    try:
+
+        #handXset = set()
+        handYset = set()
+
+        for i, value in enumerate(detection_result.hand_landmarks[0]):
+            print("index : ", i)
+            print("hand x : ", value.x * img_width)
+            print("hand y : ", value.y * img_height)
+
+            #handXset.add(value.x)
+            handYset.add(value.y)
+
+        #min_x = max(handXset)
+        min_y = min(handYset)
+
+        #right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[0])
+        #right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[1])
+
+        right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * img_width)
+        right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * img_height)
+        #print('detection_result.hand_landmarks')
+        #print(detection_result.hand_landmarks)
+
+        #print("selected hand x 좌표 : ", right_hand_x_coordinate)
+        #print("selected hand y 좌표 : ", right_hand_y_coordinate)
 
     except:
         # 손가락 인식 실패
         return -1, -1
 
     return right_hand_x_coordinate, right_hand_y_coordinate
-
-
 
 
 def text_pointer_uri(uri):
@@ -151,6 +206,7 @@ def get_finger_coordinate_file(imagefile):
     # print(image_shape)
     # print(detection_result.hand_landmarks[0][8])
     try:
+
         right_hand_x_coordinate = int(detection_result.hand_landmarks[0][8].x * image_shape[1])
         right_hand_y_coordinate = int(detection_result.hand_landmarks[0][8].y * image_shape[0])
 

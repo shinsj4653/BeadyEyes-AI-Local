@@ -186,11 +186,16 @@ def text_pointer(uri, x, y):
     img = Image.open(response.raw)
     draw = ImageDraw.Draw(img)
 
-    print('hand x :', x)
-    print('hand y :', y)
+
     # 이미지 크기 출력
 
     img_width, img_height = img.size
+    is_swap = False
+
+    if img_width > img_height : # 가끔 반대로 나오는 경우가 있음 -> 스와핑 시행
+        img_width, img_height = img_height, img_width
+        is_swap = True
+
     print(f"Image Size: {img_width} x {img_height}")
 
     print('Texts:')
@@ -199,17 +204,31 @@ def text_pointer(uri, x, y):
     words = []
 
     for i, text in enumerate(texts):
-        # 전체 텍스트는 제외, 텍스트 각각의 조각들만 필요하기 때문!
-        if i == 0 :
-            continue
 
+        print(f"Image Size: {img_width} x {img_height}")
         word = text.description
-        print(word)
+        print('word:', word)
+        if i == 0: # 사진 내 전체 문자는 제외해야함
+            continue
 
         x_set = set()
         y_set = set()
+        # 가로: 4032 세로 : 3024
+
+        # 1728, 1730
+
+        # hello
+        # x y 1248 1244  (2)   # x  y   1488     1244  (3)
+
+        # x y 1246  2238  (1)    # x   y 1486      2238 (4)
+
+        print('hand x :', x)
+        print('hand y :', y)
 
         for vertex in text.bounding_poly.vertices :
+
+            print('vertex x :',vertex.x)
+            print('vertex y :',vertex.y)
             x_set.add(vertex.x)
             y_set.add(vertex.y)
 
@@ -223,21 +242,26 @@ def text_pointer(uri, x, y):
         mid_x = min_x + (max_x - min_x) // 2
         mid_y = min_y + (max_y - min_y) // 2
 
-        print('min_x : ', min_x)
-        print('min_y : ', max_x)
 
-        print('max_x : ', min_y)
-        print('max_y : ', max_y)
+        # print('min_x : ', min_x)
+        # print('min_y : ', max_x)
+        #
+        # print('max_x : ', min_y)
+        # print('max_y : ', max_y)
+        #
+        # print('mid_x : ', mid_x)
+        # print('mid_y : ', mid_y)
 
-        print('mid_x : ', mid_x)
-        print('mid_y : ', mid_y)
-
-        if min_x <= x <= max_x and max_y <= y :
-            print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
+        if max_y <= y :
+            #print('min_x, x, max_x', min_x, x, max_x)
+            #print('max_y y', max_y, y)
+            # print("거리 : math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2))" )
             words.append((word, math.sqrt((abs(x - mid_x) ** 2) + (abs(y - mid_y) ** 2)))) # (단어, 단어의 가운데 좌표 값과 손 좌표 간 거리)
+            #words.append((word, abs(y - max_y)))
 
 
     words.sort(key=lambda x: x[1]) # 손과 가장 가까운 단어를 반환
+    print('words : ')
     print(words)
     # 가장 긴 문자열 찾기
     if words:
