@@ -60,9 +60,9 @@ jobs:
         envs: GITHUB_SHA
         script: | 
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          sudo docker stop beadyeyes-ai
-          sudo docker rm beadyeyes-ai
           sudo docker pull ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7}
           sudo docker tag ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} beadyeyes-ai
-          sudo docker-compose up -d
+          sudo chmod 777 ./deploy.ai.sh
+          ./deploy.ai.sh
+          sudo docker image prune -f
 
