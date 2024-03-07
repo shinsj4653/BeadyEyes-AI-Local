@@ -18,7 +18,7 @@ class Pointer(BaseModel) :
 
 @app.get("/")
 async def read_root() :
-	return "This is root path from FastAPI Backend v3"
+	return "This is root path from FastAPI Backend Local Server"
 
 @app.post("/image/toText")
 async def image_to_text(image: Image):
